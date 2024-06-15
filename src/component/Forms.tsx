@@ -1,13 +1,20 @@
 import { categories } from "../DB/date";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { Dispatch, useState, ChangeEvent, FormEvent } from "react";
 import { Activity } from "../type";
-export default function Forms() {
+import { ActivityActions } from "../reducers/activityReducer";
+
+type FormsProps = {
+  dispatch: Dispatch<ActivityActions>;
+};
+//Valores uniciales del estado activity
+const initialSate = {
+  category: 1,
+  name: " ",
+  calories: 0,
+};
+export default function Forms({ dispatch }: FormsProps) {
   //Definiendo estey para el manejo de la informacion
-  const [activity, setActivity] = useState< Activity>({
-    category: 1,
-    name: " ",
-    calories: 0,
-  });
+  const [activity, setActivity] = useState<Activity>(initialSate);
   const handleChange = (
     e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>
   ) => {
@@ -28,7 +35,8 @@ export default function Forms() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //Utilizando useReducer para almacenar el state
-    console.log("submit ...");
+    dispatch({ type: "save-actuvity", paylod: { newActivity: activity } });
+    setActivity(initialSate);
   };
   return (
     <form
