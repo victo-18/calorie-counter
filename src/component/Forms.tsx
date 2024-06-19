@@ -1,20 +1,32 @@
-import { categories } from "../DB/date";
+import { useEffect } from "react";
+import { categories } from "../DB/Categorias";
 import { Dispatch, useState, ChangeEvent, FormEvent } from "react";
 import { Activity } from "../type";
-import { ActivityActions } from "../reducers/activityReducer";
+import { ActivityActions, ActivityState } from "../reducers/activityReducer";
+import {v4 as uuidv4}from 'uuid';
 
 type FormsProps = {
-  dispatch: Dispatch<ActivityActions>;
+  dispatch: Dispatch<ActivityActions>,
+  state: ActivityState,
 };
 //Valores uniciales del estado activity
-const initialSate = {
+const initialSate:Activity = {
+  id:uuidv4(),
   category: 1,
   name: " ",
   calories: 0,
 };
-export default function Forms({ dispatch }: FormsProps) {
+export default function Forms({ dispatch,state }: FormsProps) {
   //Definiendo estey para el manejo de la informacion
   const [activity, setActivity] = useState<Activity>(initialSate);
+  useEffect(()=>{
+
+    if(state.activeId){
+      const selectId = state.activity.filter(activityState=> activityState.id === state.activeId)[0]
+      setActivity(selectId)
+      
+    }
+  },[state.activeId])
   const handleChange = (
     e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>
   ) => {
@@ -36,7 +48,10 @@ export default function Forms({ dispatch }: FormsProps) {
     e.preventDefault();
     //Utilizando useReducer para almacenar el state
     dispatch({ type: "save-actuvity", paylod: { newActivity: activity } });
-    setActivity(initialSate);
+    setActivity({
+      ...initialSate,
+      id:uuidv4()
+    })
   };
   return (
     <form
