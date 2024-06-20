@@ -22,7 +22,7 @@ function App() {
         </div>
       </section>
       {/* Nueva seccion elementos ingresados */}
-      <section className=" p-10 max-w-4 mx-auto">
+      <section className=" p-10  mx-auto">
         <ActivityList activity={state.activity} dispatch={dispatch} />
       </section>
     </>
