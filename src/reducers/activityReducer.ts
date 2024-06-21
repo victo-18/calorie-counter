@@ -9,9 +9,13 @@ export type ActivityState = {
   activity: Activity[];
   activeId: Activity["id"];
 };
+const localStorageActivities =(): Activity[]=>{
+const activities = localStorage.getItem('activities')
+ return activities ? JSON.parse(activities):[];
+}
 //Estado inicial del reducer
 export const initialState: ActivityState = {
-  activity: [],
+  activity: localStorageActivities(),
   activeId: "",
 };
 

@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer,useEffect } from "react";
 import Forms from "./component/Forms";
 import { activityReducer, initialState } from "./reducers/activityReducer";
 import ActivityList from "./component/ActivityList";
@@ -6,7 +6,9 @@ import ActivityList from "./component/ActivityList";
 function App() {
   //Creando el state de reducer
   const [state, dispatch] = useReducer(activityReducer, initialState);
-
+ useEffect(()=>{
+localStorage.setItem('activities',JSON.stringify(state.activity))
+ },[state.activity])
   return (
     <>
       <header className=" bg-lime-600 py-5">
@@ -22,7 +24,7 @@ function App() {
         </div>
       </section>
       {/* Nueva seccion elementos ingresados */}
-      <section className=" p-10  mx-auto">
+      <section className=" p-10 mx-auto max-w-3xl">
         <ActivityList activity={state.activity} dispatch={dispatch} />
       </section>
     </>
