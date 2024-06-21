@@ -2,7 +2,7 @@ import { useReducer, useEffect, useMemo } from "react";
 import Forms from "./component/Forms";
 import { activityReducer, initialState } from "./reducers/activityReducer";
 import ActivityList from "./component/ActivityList";
-
+import CaloriesTraker from "./component/CaloriesTraker";
 function App() {
   //Creando el state de reducer
   const [state, dispatch] = useReducer(activityReducer, initialState);
@@ -38,6 +38,13 @@ function App() {
         <div className=" max-w-4xl mx-auto">
           <Forms dispatch={dispatch} state={state} />
         </div>
+      </section>
+      <section className=" bg-gray-800 py-10">
+          <div className=" max-w-4xl mx-auto">
+          <CaloriesTraker
+          activities={state.activity}
+          />
+          </div>
       </section>
       {/* Nueva seccion elementos ingresados */}
       <section className=" p-10 mx-auto max-w-3xl">
