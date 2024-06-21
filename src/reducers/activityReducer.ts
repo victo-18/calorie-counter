@@ -1,18 +1,19 @@
 import { Activity } from "../type";
 
 export type ActivityActions =
-  | { type: "save-actuvity"; paylod: { newActivity: Activity } }
-  | { type: "set-activeId"; paylod: { id: Activity["id"] } }
-  | { type: "delete-activity"; paylod: { id: Activity["id"] } };
+  | { type: "save-activity"; payload: { newActivity: Activity } }
+  | { type: "set-activeId"; payload: { id: Activity["id"] } }
+  | { type: "delete-activity"; payload: { id: Activity["id"] } }
+  | { type: "restarte-app" };
 
 export type ActivityState = {
   activity: Activity[];
   activeId: Activity["id"];
 };
-const localStorageActivities =(): Activity[]=>{
-const activities = localStorage.getItem('activities')
- return activities ? JSON.parse(activities):[];
-}
+const localStorageActivities = (): Activity[] => {
+  const activities = localStorage.getItem("activities");
+  return activities ? JSON.parse(activities) : [];
+};
 //Estado inicial del reducer
 export const initialState: ActivityState = {
   activity: localStorageActivities(),
@@ -24,17 +25,17 @@ export const activityReducer = (
   state: ActivityState = initialState,
   actions: ActivityActions
 ) => {
-  if (actions.type === "save-actuvity") {
+  if (actions.type === "save-activity") {
     //Codigo que maneja la logica para actualizar el state
     let updateActivities: Activity[] = [];
     if (state.activeId) {
       updateActivities = state.activity.map((acctivities) =>
         acctivities.id === state.activeId
-          ? actions.paylod.newActivity
+          ? actions.payload.newActivity
           : acctivities
       );
     } else {
-      updateActivities = [...state.activity, actions.paylod.newActivity];
+      updateActivities = [...state.activity, actions.payload.newActivity];
     }
 
     return {
@@ -48,16 +49,21 @@ export const activityReducer = (
   if (actions.type === "set-activeId") {
     return {
       ...state,
-      activeId: actions.paylod.id,
+      activeId: actions.payload.id,
     };
   }
   //Eliminando una actividad
   if (actions.type === "delete-activity") {
     return {
       ...state,
-      activity:state.activity.filter((act) =>(act.id !== actions.paylod.id ))
-     
-      
+      activity: state.activity.filter((act) => act.id !== actions.payload.id),
+    };
+  }
+  //resetera la app
+  if (actions.type === "restarte-app") {
+    return {
+      activity: [],
+      activeId: "",
     };
   }
   return state;

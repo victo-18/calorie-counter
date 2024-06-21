@@ -47,7 +47,7 @@ export default function Forms({ dispatch,state }: FormsProps) {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //Utilizando useReducer para almacenar el state
-    dispatch({ type: "save-actuvity", paylod: { newActivity: activity } });
+    dispatch({ type: "save-activity", payload: { newActivity: activity } });
     setActivity({
       ...initialSate,
       id:uuidv4()

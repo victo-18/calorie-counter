@@ -55,7 +55,7 @@ export default function ActivityList({
                   onClick={() =>
                     dispatch({
                       type: "set-activeId",
-                      paylod: { id: activiti.id },
+                      payload: { id: activiti.id },
                     })
                   }
                 />
@@ -66,7 +66,7 @@ export default function ActivityList({
                   onClick={() =>
                     dispatch({
                       type: "delete-activity",
-                      paylod: { id: activiti.id },
+                      payload: { id: activiti.id },
                     })
                   }
                 />
